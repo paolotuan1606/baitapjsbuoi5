@@ -124,8 +124,8 @@ document.getElementById("tinhThue").onclick = () =>{
 }
 
 // bài 4
-let loaiKhachHang = document.getElementById("khachHang").value;
 function loaiDoanhNghiep(){
+    let loaiKhachHang = document.getElementById("khachHang").value;
     let anHienInput = document.getElementById("soKetNoi");
     if (loaiKhachHang == "doanhNghiep") {
         anHienInput.style.display = "block";
@@ -149,12 +149,12 @@ function phiDichVu(Kh,ketNoi){
             return 20.5;
         };
         case "doanhNghiep":{
-            switch (ketNoi) {
+            switch (true) {
                 case ketNoi <=10:{
                     return 75
                 }
                 case ketNoi >10:{
-                    return 75*10 + (ketnoi -10)*5
+                    return 75 + (ketNoi -10)*5
                 }
                 
             }
@@ -174,12 +174,21 @@ function phiThueKenh(Kh){
 document.addEventListener("anHienInput", ()=>{
     loaiDoanhNghiep();
 });
-
+const USDollar = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
 document.getElementById("tinhTienCap").onclick = () =>{
+let loaiKhachHang = document.getElementById("khachHang").value;
     let ma = document.getElementById("ma").value;
     let soKenh = document.getElementById("soKenh").value *1;
     let soKetNoi = document.getElementById("soKetNoi").value *1;
 
-    let phiHoaDon = phiHoaDon(khac);
+    let tienPhiHoaDon = phiHoaDon(loaiKhachHang);
+    let tienPhiDichVu = phiDichVu(loaiKhachHang,soKetNoi);
+    let tienPhiThueKenh = phiThueKenh(loaiKhachHang);
+    let tienCap = tienPhiHoaDon + tienPhiDichVu +tienPhiThueKenh*soKenh;
+    USDollar.format(tienCap);
+    document.getElementById("tienCap").innerHTML = `Mã khách hàng: ${ma}. Tiền cáp: ${USDollar.format(tienCap)}`
 }
 
